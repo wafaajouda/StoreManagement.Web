@@ -1,0 +1,51 @@
+﻿@model List<Category>
+<h1>Category List</h1>
+<hr />
+
+<a class="btn btn-success" asp-controller="Category" asp-action="Create">Add New Category</a>
+<br />
+
+@if(Model.Any())
+{
+    <br />
+    <form asp-controller="Category" asp-action="Index">
+        <div class="row">
+            <div class="col-md-4">
+                <input name="searchKey" value="@ViewBag.searchKey" class="form-control" placeholder="Search..." />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-primary" value="Search" />
+            </div>
+        </div>
+    </form>
+
+    <br />    
+
+    <table class="table table-hover">
+        <tr>
+            <th>Category Id</th>
+            <th>Category Name</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach(var category in Model)
+        {
+            <tr>
+                <th>@category.CategoryId</th>
+                <th>@category.CategoryName</th>
+                <th>@category.CreatedAt.ToString("yyyy/MM/dd")</th>
+                <th>
+                    <a class="btn btn-warning" href="~/Category/Update/@category.CategoryId">Update</a>
+                    <a class="btn btn-danger" href="~/Category/Delete/@category.CategoryId">Delete</a>
+                </th>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        No Categories Found.
+    </div>
+}

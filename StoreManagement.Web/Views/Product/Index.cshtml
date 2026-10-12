@@ -1,0 +1,59 @@
+﻿@model List<Product>
+<h1>Products List</h1>
+<hr />
+
+<a class="btn btn-success" asp-controller="Product" asp-action="Create">Add New Product</a>
+<br />
+
+@if(Model.Any())
+{
+    <br />
+    <form asp-controller="Product" asp-action="Index">
+        <div class="row">
+            <div class="col-md-4">
+                <input name="searchKey" value="@ViewBag.searchKey" class="form-control" placeholder="Search..." />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-primary" value="Search" />
+            </div>
+        </div>
+    </form>
+
+    <br />    
+
+    <table class="table table-hover">
+        <tr>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach(var product in Model)
+        {
+            <tr>
+                <th>@product.ProductId</th>
+                <th>@product.ProductName</th>
+                <th>@product.Price</th>
+                <th>
+                    <img class="img-fluid" width="200" src="~/Images/@product.ImageURL" />
+                </th>
+                <th>@product.Category.CategoryName</th>
+                <th>@product.CreatedAt.ToString("yyyy/MM/dd")</th>
+                <th>
+                    <a class="btn btn-warning" href="~/Product/Update/@product.ProductId">Update</a>
+                    <a class="btn btn-danger" href="~/Product/Delete/@product.ProductId">Delete</a>
+                </th>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        No Categories Found.
+    </div>
+}

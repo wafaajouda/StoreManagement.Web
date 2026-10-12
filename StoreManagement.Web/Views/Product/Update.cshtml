@@ -1,0 +1,85 @@
+﻿@model UpdateProductViewModel
+
+@section CSS {
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+}
+
+<h1>Edit Product</h1>
+<hr />
+
+<form asp-action="Update" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ProductId" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Product Name</label>
+                <input required asp-for="ProductName" class="form-control" />
+            </div>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="label-control">Product Description</label>
+                <textarea id="ProductDescription" asp-for="Description" class="form-control"></textarea>
+            </div>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Current Image</label>
+                <div>
+                    @if (!string.IsNullOrEmpty(Model.ImageURL))
+                    {
+                         @* عرض الصورة القديمة المخزنة في قاعدة البيانات *@
+                        <img src="~/Images/@Model.ImageURL" width="200" class="img-fluied" />
+                    }else {
+                        <span class="text-muted">No image uploaded</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Upload New Image (Optional)</label>
+                <input type="file" asp-for="ImageFile" class="form-control" />
+            </div>
+        </div>
+     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Product Price</label>
+                <input required asp-for="Price" class="form-control" />
+            </div>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Cateory</label>
+                <select asp-for="CategoryId" asp-Items="@ViewBag.categoryList" class="form-control"></select>
+            </div>
+        </div>    
+    </div>
+    <br />
+    <input type="submit" class="btn btn-primary" value="Save" />
+    <a asp-controller="Product" asp-action="Index" class="btn btn-danger">Back</a>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          $('#ProductDescription').summernote({
+            placeholder: 'Write product info',
+            tabsize: 2,
+            height: 400
+          });
+        });
+    </script>
+}

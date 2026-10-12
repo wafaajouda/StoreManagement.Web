@@ -1,0 +1,67 @@
+﻿@model CreateProductViewModel
+
+@section CSS {
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+}
+
+
+<h1>Add New Product</h1>
+<hr />
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Product Name</label>
+                <input required asp-for="ProductName" class="form-control" />
+            </div>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Description" class="label-control"></label>
+                <textarea id="ProductDescription" asp-for="Description" class="form-control"></textarea>
+            </div>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Product Image</label>
+                <input type="file" asp-for="ImageURL" class="form-control" />
+            </div>
+        </div>  
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Product Price</label>
+                <input required asp-for="Price" class="form-control" />
+            </div>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Category</label>
+                <select asp-for="CategoryId" asp-Items="@ViewBag.categoryList" class="form-control"></select>
+            </div>
+        </div>    
+    </div>
+    <br />
+    <input type="submit" class="btn btn-primary" value="Save" />
+    <a asp-controller="Product" asp-action="Index" class="btn btn-danger">Back</a>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          $('#ProductDescription').summernote({
+            placeholder: 'Write product info',
+            tabsize: 2,
+            height: 400
+          });
+        });
+    </script>
+}
