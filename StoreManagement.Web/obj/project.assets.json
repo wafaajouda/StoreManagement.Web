@@ -3564,11 +3564,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\StoreManagement\\StoreManagement.Web\\StoreManagement.Web.csproj",
+      "projectUniqueName": "C:\\Users\\pc\\source\\repos\\wafaajouda\\StoreManagement.Web\\StoreManagement.Web\\StoreManagement.Web.csproj",
       "projectName": "StoreManagement.Web",
-      "projectPath": "D:\\Projects\\StoreManagement\\StoreManagement.Web\\StoreManagement.Web.csproj",
+      "projectPath": "C:\\Users\\pc\\source\\repos\\wafaajouda\\StoreManagement.Web\\StoreManagement.Web\\StoreManagement.Web.csproj",
       "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\StoreManagement\\StoreManagement.Web\\obj\\",
+      "outputPath": "C:\\Users\\pc\\source\\repos\\wafaajouda\\StoreManagement.Web\\StoreManagement.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
