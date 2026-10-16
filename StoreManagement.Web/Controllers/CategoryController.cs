@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using StoreManagement.Web.Data;
@@ -8,6 +9,7 @@ using StoreManagement.Web.ViewModel;
 
 namespace StoreManagement.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Employee")]
     public class CategoryController : Controller
     {
         private ApplicationDbContext _db;
@@ -18,6 +20,7 @@ namespace StoreManagement.Web.Controllers
             _emailService = emailService;
         }
 
+        [Authorize]
         public IActionResult Index(string searchKey)
         {
             var categories = _db.Categories.Where(x => !x.IsDeleted && (x.CategoryName.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey))).ToList();

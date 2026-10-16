@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreManagement.Web.Models;
 using System.Diagnostics;
 
 namespace StoreManagement.Web.Controllers
 {
+    [Authorize(Roles ="Admin, Employee")]
     public class HomeController : Controller
     {
         public IActionResult Index()

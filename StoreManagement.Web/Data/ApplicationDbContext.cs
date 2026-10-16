@@ -4,10 +4,11 @@ using StoreManagement.Web.Models;
 
 namespace StoreManagement.Web.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<User>(options)
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Brand> Brands { get; set; }
     }
 }

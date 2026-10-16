@@ -28,6 +28,7 @@
             <th>Price</th>
             <th>Image</th>
             <th>Category</th>
+            <th>Brand</th>
             <th>Created At</th>
             <th>Actions</th>
         </tr>
@@ -42,6 +43,7 @@
                     <img class="img-fluid" width="200" src="~/Images/@product.ImageURL" />
                 </th>
                 <th>@product.Category.CategoryName</th>
+                <th>@product.Brand.Name</th>
                 <th>@product.CreatedAt.ToString("yyyy/MM/dd")</th>
                 <th>
                     <a class="btn btn-warning" href="~/Product/Update/@product.ProductId">Update</a>
@@ -54,6 +56,6 @@
 else
 {
     <div class="alert alert-warning">
-        No Categories Found.
+        No Products Found.
     </div>
 }

@@ -29,8 +29,8 @@ namespace StoreManagement.Web.Services
             var port = int.Parse(_configuration["EmailSettings:Port"] ?? "587");
             var senderEmail = _configuration["EmailSettings:SenderEmail"];
             var password = _configuration["EmailSettings:Password"];
-
-            var message = new MailMessage();
+            // استخدام using لـ MailMessage لضمان تنظيف الذاكرة
+            using var message = new MailMessage();
             message.From = new MailAddress(senderEmail, "Product App");
             message.Subject = subject;
             message.Body = body;
@@ -39,7 +39,8 @@ namespace StoreManagement.Web.Services
 
             try
             {
-                var emailClient = new SmtpClient
+                // استخدام using var مع SmtpClient يضمن إغلاق الاتصال وتحريره فوراً بعد الانتهاء
+                using var emailClient = new SmtpClient
                 {
                     Host = smtpServer,
                     Port = port,

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreManagement.Web.Data;
@@ -9,6 +10,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace StoreManagement.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Employee")]
     public class ProductController : Controller
     {
         private ApplicationDbContext _db;
@@ -21,10 +23,14 @@ namespace StoreManagement.Web.Controllers
             _fileService = fileService;
             _emailService = emailService;
         }
-
+        [Authorize]
         public IActionResult Index(string searchKey)
         {
-            var products = _db.Products.Include(x => x.Category).Where(x => !x.IsDeleted && (x.ProductName.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey))).ToList();
+            var products = _db.Products
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .Where(x => !x.IsDeleted && (x.ProductName.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey)))
+                .ToList();
             ViewBag.searchKey = searchKey;
             return View(products);
         }
@@ -33,6 +39,7 @@ namespace StoreManagement.Web.Controllers
         public IActionResult Create()
         {
             ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
+            ViewData["brandList"] = new SelectList(_db.Brands.Where(x => !x.IsDeleted).ToList(), "Id", "Name");
             return View();
         }
 
@@ -44,6 +51,7 @@ namespace StoreManagement.Web.Controllers
             {
                 TempData["msg"] = "e:Product Name is already Exist!";
                 ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
+                ViewData["brandList"] = new SelectList(_db.Brands.Where(x => !x.IsDeleted).ToList(), "Id", "Name");
                 return View(input);
             }
             if (ModelState.IsValid)
@@ -59,6 +67,7 @@ namespace StoreManagement.Web.Controllers
                 }
                 
                 product.CategoryId = input.CategoryId;
+                product.BrandId = input.BrandId;
                 product.CreatedAt = DateTime.Now;
                 _db.Products.Add(product);
                 _db.SaveChanges();
@@ -73,6 +82,7 @@ namespace StoreManagement.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
+            ViewData["brandList"] = new SelectList(_db.Brands.Where(x => !x.IsDeleted).ToList(), "Id", "Name");
             return View(input);
         }
 
@@ -80,6 +90,7 @@ namespace StoreManagement.Web.Controllers
         public IActionResult Update(int id)
         {
             ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
+            ViewData["brandList"] = new SelectList(_db.Brands.Where(x => !x.IsDeleted).ToList(), "Id", "Name");
 
             var product = _db.Products.SingleOrDefault(x => x.ProductId == id && !x.IsDeleted);
             if (product == null)
@@ -93,6 +104,7 @@ namespace StoreManagement.Web.Controllers
             vmUpdate.ImageURL = product.ImageURL;
             vmUpdate.Price = product.Price;
             vmUpdate.CategoryId = product.CategoryId;
+            vmUpdate.BrandId = product.BrandId;
             return View(vmUpdate);
         }
 
@@ -101,7 +113,6 @@ namespace StoreManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                //ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
                 var product = _db.Products.SingleOrDefault(x => x.ProductId == input.ProductId && !x.IsDeleted);
                 if (product == null)
                 {
@@ -116,13 +127,15 @@ namespace StoreManagement.Web.Controllers
                 }
 
                 product.Price = input.Price;
-                product.CategoryId = input.CategoryId; 
+                product.CategoryId = input.CategoryId;
+                product.BrandId = input.BrandId;
                 _db.Products.Update(product);
                 _db.SaveChanges();
                 TempData["msg"] = "s:Product Updated successfully";
                 return RedirectToAction("Index");
             }
             ViewData["categoryList"] = new SelectList(_db.Categories.Where(x => !x.IsDeleted).ToList(), "CategoryId", "CategoryName");
+            ViewData["brandList"] = new SelectList(_db.Brands.Where(x => !x.IsDeleted).ToList(), "Id", "Name");
             return View(input);
         }
 

@@ -1,0 +1,19 @@
+﻿@model CreateBrandViewModel
+
+<h1>Add New Brand</h1>
+<hr />
+
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Brand Name</label>
+                <input required asp-for="Name" class="form-control" />
+            </div>
+        </div>
+    </div>
+    
+    <br />
+    <input type="submit" value="Save" class="btn btn-primary"/>
+    <a asp-controller="Brand" asp-action="Index" class="btn btn-danger">Back</a>
+</form>

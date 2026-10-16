@@ -48,6 +48,14 @@
             </div>
         </div>    
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="label-control">Brand</label>
+                <select asp-for="BrandId" asp-Items="@ViewBag.brandList" class="form-control"></select>
+            </div>
+        </div>    
+    </div>
     <br />
     <input type="submit" class="btn btn-primary" value="Save" />
     <a asp-controller="Product" asp-action="Index" class="btn btn-danger">Back</a>

@@ -12,5 +12,6 @@ namespace StoreManagement.Web.ViewModel
         [Required]
         public IFormFile ImageURL { get; set; }
         public int CategoryId { get; set; }
+        public int BrandId { get; set; }
     }
 }
